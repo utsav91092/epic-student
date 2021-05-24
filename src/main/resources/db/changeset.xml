@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="20210522" author="Utsav">
+
+        <createTable tableName="student">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(255)"/>
+            <column name="last_name" type="varchar(255)"/>
+            <column name="date_of_birth" type="DATE"/>
+            <column name="phone_number" type="varchar(50)"/>
+            <column name="created_time" type="DATETIME"/>
+            <column name="last_modified_time" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="course">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="LONGTEXT"/>
+            <column name="created_time" type="DATETIME"/>
+            <column name="last_modified_time" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="course_subscription">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="course_id" type="BIGINT">
+                <constraints foreignKeyName="fk_course_subscription_course_id" references="course(id)" nullable="true"/>
+            </column>
+            <column name="student_id" type="BIGINT">
+                <constraints foreignKeyName="fk_course_subscription_student_id" references="student(id)" nullable="true"/>
+            </column>
+            <column name="subscription_type" type="ENUM('REGULAR','ADVANCE')"/>
+            <column name="expiry_date" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+
+    <!--<changeSet id="20210523" author="Utsav">
+        <addUniqueConstraint columnNames="course_id, student_id"
+                             constraintName="unique_const_course_user_subscription"
+                             deferrable="true"
+                             tableName="course_subscription"/>
+    </changeSet>-->
+
+</databaseChangeLog>
